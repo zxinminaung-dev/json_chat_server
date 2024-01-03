@@ -36,7 +36,7 @@ router.post('/login',async(req,res)=>{
     }catch(error){
         console.log(error)
     }   
-    if(data.success){
+    if(result.success){
         var user =await findByUserId(result.data.id)
         await userService.updateStatusOnline(user);
     }
