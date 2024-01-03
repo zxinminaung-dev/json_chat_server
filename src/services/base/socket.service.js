@@ -18,6 +18,7 @@ module.exports =  {
         return io;
     },
     sendMessageToClients: function (message) {
+        console.log('messge')
         io.emit('message', message);
     },
     sendCount: function (count) {
