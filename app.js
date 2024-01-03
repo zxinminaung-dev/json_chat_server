@@ -4,7 +4,7 @@ const http = require('http')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const socket = require('./src/services/base/socket.service')
-const PORT = process.env.APP_PORT || 4500;
+const PORT =  4500;
 const app = express()
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
