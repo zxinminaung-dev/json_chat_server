@@ -12,7 +12,8 @@ app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 //cors origin
 var corsOptions = {
-    origin: "*"
+    origin: "*",
+    methods: 'GET, POST, PUT, DELETE',
 };
 app.use(cors(corsOptions));
 
