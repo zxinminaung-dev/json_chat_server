@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express')
 const APP_SECRET="bbf1fbd5b287402e97e4c668da169a2fb8bdf863852f81587d35c5af9ef24f7f";
-const socketService = require('../services/base/socket.service')
 const userService = require('../services/user.service')
 const {Login,updateUser,findByUserId} = require('../database/json.database')
 const jwt = require ('jsonwebtoken')

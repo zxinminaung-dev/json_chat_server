@@ -27,4 +27,5 @@ module.exports =  {
     userOnlineStatus:function(user){
         io.emit('online', user);
     }
+    
 }
