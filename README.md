@@ -6,7 +6,7 @@
  <li>Used Json File for storage ( src/database/db.json )</li>
  <li>Use JsonWebToken and Passport Js for Authentication and Authorization ( src/database/db.json )</li>
  <li>Used Vue Js & Veutify for FrontEnd</li>
- [link]([https://github.com/user/repo/blob/branch/other_file.md](https://github.com/zxinminaung-dev/vuetify_chat_client)https://github.com/zxinminaung-dev/vuetify_chat_client)
+ [link](https://github.com/zxinminaung-dev/vuetify_chat_client)
 </ul>
 
 
