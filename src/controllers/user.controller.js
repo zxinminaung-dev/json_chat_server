@@ -20,6 +20,7 @@ router.post('/', async (req, res) => {
         if(user!=null){
             user.name=req.body.name,
             user.username=req.body.username
+            user.image= req.body.image            
            result = await updateUser(user);          
         }
         else{
@@ -34,6 +35,7 @@ router.post('/', async (req, res) => {
             newUser.id=0;
             newUser.username = req.body.username,
             newUser.name =req.body.name
+            newUser.image=req.body.image
             newUser.online=false;
             newUser.password = await passwordService.hashPassword(req.body.password)
             result =await saveUser(newUser)

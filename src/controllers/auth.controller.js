@@ -23,12 +23,17 @@ router.post('/login',async(req,res)=>{
                 exp: new Date().setDate(new Date().getDate() + 1)
             }, APP_SECRET);           
         }  
-        var data={}  
+        var data={
+            id:0,
+            username:'',
+            name:'',
+            image:''
+        }  
         if(result.data){
             data.id=result.data.id
             data.username=result.data.username,
             data.name=result.data.name,
-            data.role_id= result.data.role_id
+            data.image=result.data.image
         }
         data.token=token;  
         data.success=result.success

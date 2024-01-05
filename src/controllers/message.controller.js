@@ -11,6 +11,7 @@ router.get('/',passport.authenticate('jwt', { session: false }),async(req,res)=>
     res.json(response);
 })
 router.post('/',passport.authenticate('jwt', { session: false }),async (req,res) => {
+    console.log('sendmesage')
     var message = {};
     message.id = req.body.id
     message.text = req.body.text
