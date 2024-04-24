@@ -20,4 +20,4 @@ updateStatusOffline = async (user) => {
         console.log(e);
     }
 }
-module.exports = {updateStatusOnline,updateStatusOffline}
+module.exports = {updateStatusOnline, updateStatusOffline}

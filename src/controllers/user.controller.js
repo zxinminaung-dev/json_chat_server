@@ -4,14 +4,26 @@ const passwordService = require('../services/common/password.hash.service')
 const Constant = require('../utils/constant')
 const passport = require('passport')
 const ResponseHelper = require('../utils/response.helper')
+const Response = require('../utils/response')
+const User = require('../models/user.model')
 require('../utils/passport.config')(passport)
 const router = express.Router()
 router.use(passport.initialize())
 //passport.authenticate('jwt', { session: false }),
 router.get('/', async (req, res) => {
     var id = req.query.id
-    var result = await getUsers(id);
-    res.json(result);
+    //var result = await getUsers(id);
+    try{
+        var response = new Response()
+        var data =await User.findAll()
+        response.data= data
+        response.success=true
+        response.recordsTotal= data.length
+        //console.log(data)
+        res.json(response);
+    }catch(err){
+        console.log(err)
+    }
 })
 router.post('/', async (req, res) => {
     var result=new ResponseHelper();
