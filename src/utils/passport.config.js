@@ -4,18 +4,19 @@ const passport = require('passport');
 const passportJWT = require('passport-jwt');
 const ExtractJWT = passportJWT.ExtractJwt;
 const JWTStrategy = passportJWT.Strategy;
-const {findByUserId} = require('../database/json.database')
-const secretKey = "bbf1fbd5b287402e97e4c668da169a2fb8bdf863852f81587d35c5af9ef24f7f"; // Replace with your secret key
+const userService = require('../services/user.service')
+
 
 const jwtOptions = {
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-    secretOrKey: secretKey,
+    secretOrKey: process.env.APP_SECRET,
 };
 
 module.exports = passport=>passport.use(   
     new JWTStrategy(jwtOptions, async (jwtPayload, done) => {
         try {
-            var user= await findByUserId(jwtPayload.sub);
+            var user= await userService.FindById(jwtPayload.sub);
+            console.log(user)
             if(user){
                 return done(null, user);
             }

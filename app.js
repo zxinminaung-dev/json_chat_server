@@ -24,14 +24,15 @@ app.use(cors(corsOptions));
 const userController = require('./src/controllers/user.controller')
 const authController = require ('./src/controllers/auth.controller')
 const messageController = require('./src/controllers/message.controller')
-const friendshipController = require('./src/controllers/friendship.controller')
 const smtpController =  require('./src/controllers/smtp.controller')
+const projectController = require('./src/controllers/project.controller')
+
 //use controllers
 app.use('/api/user', userController)
 app.use('/api/auth',authController)
 app.use('/api/message',messageController)
-app.use('/api/friendship',friendshipController)
 app.use('/api/smtp', smtpController)
+app.use('/api/project', projectController)
 
 const server = http.createServer(app)
 //scheduling the background service

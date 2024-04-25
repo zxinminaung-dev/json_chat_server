@@ -1,26 +1,28 @@
 require('dotenv').config();
 const express = require('express')
-const APP_SECRET="bbf1fbd5b287402e97e4c668da169a2fb8bdf863852f81587d35c5af9ef24f7f";
+const APP_SECRET=process.env.APP_SECRET;
+const User = require('../models/user.model')
 const userService = require('../services/user.service')
-const {Login,updateUser,findByUserId} = require('../database/json.database')
 const MailService = require('../services/mail.service')
 const passwordService= require('../services/common/password.hash.service')
 const jwt = require ('jsonwebtoken')
 const passport = require('passport');
-const { stat } = require('fs');
 require('../utils/passport.config')(passport)
+
 const router = express.Router()
 router.use(passport.initialize())
+
 router.post('/login',async(req,res)=>{
     var token;
     try{
         const {username,password}=req.body
-        var result=await Login(username,password)
+        var result=await userService.Login(username,password)
+        console.log(result)
         if(result.success){
             // Generate a JWT token for the authenticated user
             token= jwt.sign({
-                iss: result.data.username,
-                sub: result.data.id,
+                iss: result.data.UserName,
+                sub: result.data.Id,
                 iat: new Date().getTime(),
                 exp: new Date().setDate(new Date().getDate() + 1)
             }, APP_SECRET);           
@@ -28,14 +30,12 @@ router.post('/login',async(req,res)=>{
         var data={
             id:0,
             username:'',
-            name:'',
-            image:''
+            name:''
         }  
         if(result.data){
-            data.id=result.data.id
-            data.username=result.data.username,
-            data.name=result.data.name,
-            data.image=result.data.image
+            data.id=result.data.Id
+            data.username=result.data.UserName,
+            data.name=result.data.Name
         }
         data.token=token;  
         data.success=result.success
@@ -43,10 +43,6 @@ router.post('/login',async(req,res)=>{
     }catch(error){
         console.log(error)
     }   
-    if(result.success){
-        var user =await findByUserId(result.data.id)
-        await userService.updateStatusOnline(user);
-    }
     res.json(data);
 })
 router.post('/logout',async(req,res)=>{
@@ -59,7 +55,8 @@ router.post('/logout',async(req,res)=>{
 
 const users = {};
 router.post('/register', async (req, res) => {
-    const { email } = req.body;
+    console.log(req.body)
+    const  email  = req.body.email;
     if(email!=null){
         const subject ="OTP Verification"
 
@@ -96,26 +93,35 @@ router.post('/verify-otp', (req, res) => {
 });
 
 // Route to handle user registration after OTP verification
-router.post('/complete-registration', (req, res) => {
+router.post('/complete-registration', async (req, res) => {
     try{
         const { name, username, email, password, status, expiry_date } = req.body;
+        var date=new Date(expiry_date).getDate();
+        //const dt = `${d.getFullYear()}-${d.getUTCMonth() + 1}-${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}.${d.getMilliseconds()}`;
     // Check if user is verified
     if (users[email] && users[email].verified) {
         // Save user details to database or perform any other action
         var user = {
-            name:name,
-            username: username,
-            email: email,
-            password : passwordService.hashPassword(password),
-            status : status,
-            expiry_date: expiry_date
+            Name:name,
+            UserName: username,
+            Email: email,
+            Password : await passwordService.hashPassword(password),
+            Status : status,
+            ExpiryDate: null
         }
+        console.log(user)
+        await User.create(user).then((result)=>{
+            console.log(result);
+        }).catch(err=>{
+            console.log(err)
+        });
+        
         res.status(200).json({ message: 'User registered successfully' });
     } else {
         res.status(400).json({ message: 'OTP verification required' });
     }
     }catch(err){
-        res.status(500).json({ message: 'Something went wrong' });
+        res.status(500).json({ message: err });
     }
     
 });

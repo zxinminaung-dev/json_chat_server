@@ -1,39 +1,42 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../database/database');
+const ProjectMember = require('./project.member.model');
+
 
 const User = sequelize.define('User', {
-    id: {
+    Id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    name:{
+    Name:{
         type: DataTypes.STRING,
         allowNull: false
     },
-    username: {
+    UserName: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    email: {
+    Email: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    password: {
+    Password: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    status: {
+    Status: {
         type: DataTypes.BOOLEAN,
         allowNull: false
     },
-    expiry_Date: {
+    ExpiryDate: {
         type: DataTypes.DATE,
-        allowNull: false
+        allowNull: true
     }
 }, {
     tableName:'User',
     timestamps: false // Exclude createdAt and updatedAt fields
 });
+
 
 module.exports = User;
