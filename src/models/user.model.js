@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../database/database');
-const ProjectMember = require('./project.member.model');
 
 
 const User = sequelize.define('User', {
@@ -34,7 +33,7 @@ const User = sequelize.define('User', {
         allowNull: true
     }
 }, {
-    tableName:'User',
+    tableName:'Users',
     timestamps: false // Exclude createdAt and updatedAt fields
 });
 
