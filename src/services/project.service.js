@@ -2,23 +2,23 @@ const dbContext = require('../database/database')
 const sequelize =  require('sequelize')
 const Response = require('../utils/response')
 const Project = require('../models/project.model')
-
+const Module = require('../models/module.model')
 
 GetAll = async () =>{
     var response = new  Response()
-    Project.findAll({
-        include: [{
-            model: Module,
-            attributes: ['Id', 'Name','ProjectId'] // Specify which module attributes to include
-        }]
-    }).then(projects => {
-        response.data = projects
+    try{
+        response.data= await Project.findAll({
+            include: [{
+                model: Module,
+                attributes: ['Id', 'Name','ProjectId'] // Specify which module attributes to include
+            }]
+        });
         response.recordsTotal = projects.length
         response.success = true
-    }).catch(error => {
-        console.error('Error fetching projects:', error);
-        response.messages.push(error)
-    });
+    }catch(err){
+        response.success = false
+        response.messages.push(err.name)
+    }    
     return response;
 }
 GetAllCustomQurey = async () =>{

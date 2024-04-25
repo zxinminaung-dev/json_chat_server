@@ -17,7 +17,6 @@ router.post('/login',async(req,res)=>{
     try{
         const {username,password}=req.body
         var result=await userService.Login(username,password)
-        console.log(result)
         if(result.success){
             // Generate a JWT token for the authenticated user
             token= jwt.sign({

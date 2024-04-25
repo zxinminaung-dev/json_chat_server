@@ -26,6 +26,7 @@ const authController = require ('./src/controllers/auth.controller')
 const messageController = require('./src/controllers/message.controller')
 const smtpController =  require('./src/controllers/smtp.controller')
 const projectController = require('./src/controllers/project.controller')
+const moduleController = require('./src/controllers/module.controller')
 
 //use controllers
 app.use('/api/user', userController)
@@ -33,6 +34,7 @@ app.use('/api/auth',authController)
 app.use('/api/message',messageController)
 app.use('/api/smtp', smtpController)
 app.use('/api/project', projectController)
+app.use('/api/module', moduleController)
 
 const server = http.createServer(app)
 //scheduling the background service
@@ -70,8 +72,6 @@ io.on('connection', (socket) => {
         console.log('Error', err);
     })
 });
-
-
 
 server.listen(PORT, async (data,error) => {
     if(error)console.log(error.message)

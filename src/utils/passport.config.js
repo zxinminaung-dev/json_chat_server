@@ -16,7 +16,6 @@ module.exports = passport=>passport.use(
     new JWTStrategy(jwtOptions, async (jwtPayload, done) => {
         try {
             var user= await userService.FindById(jwtPayload.sub);
-            console.log(user)
             if(user){
                 return done(null, user);
             }
