@@ -19,9 +19,8 @@ router.get('/custom_query', async (req,res)=>{
 })
 
 router.get('/getmembers',passport.authenticate('jwt', { session: false }), async(req,res) =>{
-    var id = req.query.id
-    console.log(id)
-    var result = await projectMemberService.GetProjectMembersByProjectId(id);
+    var projectId = req.query.id
+    var result = await projectMemberService.GetProjectMembersByProjectId(id)
     res.json(result)    
 })
 
